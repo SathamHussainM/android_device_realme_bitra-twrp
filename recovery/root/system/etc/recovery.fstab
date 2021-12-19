@@ -13,66 +13,13 @@
 #       contributors may be used to endorse or promote products derived
 #       from this software without specific prior written permission.
 #
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#device         mount point      fstype        [device2] [length=]
-system                                     /system         erofs   ro                                                             wait,logical,first_stage_mount
-system                                     /system         ext4    ro,barrier=1                                                   wait,logical,first_stage_mount
-vendor                                     /vendor         erofs   ro                                                             wait,logical,first_stage_mount
-product                                    /product        erofs   ro                                                             wait,logical,first_stage_mount
-my_product                                 /my_product     erofs   ro                                                             wait,logical,first_stage_mount
-my_engineering                             /my_engineering ext4    ro,barrier=1                                                   wait,logical,first_stage_mount
-/dev/block/by-name/cache                   /cache          ext4    noatime,nosuid,nodev,barrier=1,data=ordered                     wait,check,first_stage_mount
-#common_preload /common_preload ext4 ro wait,logical,first_stage_mount
-/dev/block/by-name/preload /special_preload ext4 ro wait
-/dev/block/by-name/metadata                /metadata       ext4    noatime,nosuid,nodev,discard                         wait,formattable,first_stage_mount
-#/dev/block/bootdevice/by-name/userdata     /data           f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt   #latemount,wait,resize,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d8#4000.ufshc,checkpoint=fs
-/dev/block/bootdevice/by-name/userdata                  /data                  f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt   latemount,wait,resize,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d84000.ufshc,checkpoint=fs
-#/dev/block/bootdevice/by-name/userdata                  /data                  f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt   latemount,wait,resize,check,formattable,fileencryption=ice,wrappedkey,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d84000.ufshc,checkpoint=fs
-/dev/block/mmcblk1p1                       /external_sd    vfat    nosuid,nodev                                                    defaults
-#Shuangquan.Du@PSW.AD.Recovery.0, 2018/07/21, Add for usb otg
-/dev/block/sdg1                            /usb_otg        vfat    nosuid,nodev                                                    defaults
-/dev/block/bootdevice/by-name/boot         /boot           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/recovery     /recovery       emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/misc         /misc           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/aboot        /aboot          emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/abootbak     /abootbak       emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/modem        /modem          emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/sbl1         /sbl1           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/sbl1bak      /sbl1bak        emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/rpm          /rpm            emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/rpmbak       /rpmbak         emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/tz           /tz             emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/tzbak        /tzbak          emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/modem_st1    /modemst1       emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/modem_st2    /modemst2       emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/oppostanvbk  /static_nv_bk   emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/oppodycnvbk  /oppodycnvbk    emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/LOGO         /logo           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/reserve4     /reserve4       emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/dsp          /dsp            emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/DDR          /DDR            emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/devcfg       /devcfg         emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/mdtp         /mdtp           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/cmnlib       /cmnlib         emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/cmnlibbak    /cmnlibbak      emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/keymaster    /keymaster      emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/keymasterbak /keymasterbak   emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/apdp         /apdp           emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/devinfo      /devinfo        emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/persist      /persist        ext4    defaults                                                        defaults
-/dev/block/bootdevice/by-name/opporeserve2 /opporeserve    ext4    rw,seclabel,nosuid,nodev,noatime,data=ordered                   defaults
-/dev/block/bootdevice/by-name/abl          /abl            emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/ablbak       /ablbak         emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/xbl          /xbl            emmc    defaults                                                        defaults
-/dev/block/bootdevice/by-name/xblbak       /xblbak         emmc    defaults                                                        defaults
+#<src>                                 <mnt_point>     <type>   <mnt_flags and options>           <fs_mgr_flags>
+system                                   /system        erofs   ro                                wait,logical,first_stage_mount
+system                                   /system        ext4    ro,barrier=1                      wait,logical,first_stage_mount
+vendor                                   /vendor        erofs   ro                                wait,logical,first_stage_mount
+product                                  /product       erofs   ro                                wait,logical,first_stage_mount
+
+/dev/block/bootdevice/by-name/metadata   /metadata      ext4    noatime,nosuid,nodev,discard      wait,formattable,first_stage_mount
+/dev/block/bootdevice/by-name/userdata   /data          f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt   latemount,wait,resize,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d84000.ufshc,checkpoint=fs
+/dev/block/bootdevice/by-name/misc       /misc          emmc    defaults                           defaults
