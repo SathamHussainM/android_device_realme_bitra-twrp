@@ -2,58 +2,37 @@
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
-# mount_point  fstype   device            device2                  flags
+# mount_point  fstype   device            device2                      flags
 
-/system_root    ext4    /dev/block/mapper/system                   flags=removable
-/system_ext     ext4    /dev/block/mapper/system_ext               flags=display="System-EXT";removable
-/product        ext4    /dev/block/mapper/product                  flags=removable
-/vendor         ext4    /dev/block/mapper/vendor                   flags=removable
-/odm            ext4    /dev/block/mapper/odm                      flags=removable
+# Other partitions
+/boot           emmc    /dev/block/bootdevice/by-name/boot             flags=backup=1;display="Boot";flashimg=1
+/recovery       emmc    /dev/block/bootdevice/by-name/recovery         flags=backup=1;display="Recovery";flashimg=1
+/dtbo           emmc    /dev/block/bootdevice/by-name/dtbo             flags=backup=1;display="Dtbo";flashimg=1
+/cache          ext4    /dev/block/bootdevice/by-name/cache            flags=backup=1;display="Cache";wipeingui
 
-/boot           emmc    /dev/block/sde11
-/dtbo           emmc    /dev/block/sde19                           flags=display="Dtbo";flashimg;backup=1
-/recovery       emmc    /dev/block/sde23                           flags=display="Recovery";flashimg;backup=1
+/metadata       ext4    /dev/block/bootdevice/by-name/metadata         flags=display="Metadata";wrappedkey
+/data           f2fs    /dev/block/bootdevice/by-name/userdata         flags=fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption
 
-# Modem Backup
-/firmware       vfat    /dev/block/sde4                            flags=display="Firmware";mounttodecrypt;fsflags=ro
-/modem_image    emmc    /dev/block/sde4                            flags=display="Modem";backup=1
+# AVB partitions
+/dtbo           emmc    /dev/block/bootdevice/by-name/dtbo             flags=display="Dtbo";flashimg;backup=1
+/vbmeta         emmc    /dev/block/bootdevice/by-name/vbmeta           flags=display="Vbmeta";flashimg;backup=1
+/vbmeta_system  emmc    /dev/block/bootdevice/by-name/vbmeta_system    flags=display="Vbmeta-System";flashimg;backup=1
+/vbmeta_vendor  emmc    /dev/block/bootdevice/by-name/vbmeta_vendor    flags=display="Vbmeta-Vendor";flashimg;backup=1
 
-# Firmware-update partitions
-/abl            emmc    /dev/block/sde8                            flags=display="Firmware-update";backup=1
-/aop            emmc    /dev/block/sde1                            flags=backup=1;subpartitionof=/abl
-/apdp           emmc    /dev/block/sde47                           flags=backup=1;subpartitionof=/abl
-/bluetooth      emmc    /dev/block/sde5                            flags=backup=1;subpartitionof=/abl
-/cmnlib         emmc    /dev/block/sde12                           flags=backup=1;subpartitionof=/abl
-/cmnlib64       emmc    /dev/block/sde13                           flags=backup=1;subpartitionof=/abl
-/ddr            emmc    /dev/block/sdd3                            flags=backup=1;subpartitionof=/abl
-/devcfg         emmc    /dev/block/sde14                           flags=backup=1;subpartitionof=/abl
-/DRIVER         emmc    /dev/block/sdf9                            flags=backup=1;subpartitionof=/abl
-/dsp            emmc    /dev/block/sde9                            flags=backup=1;subpartitionof=/abl
-/hyp            emmc    /dev/block/sde3                            flags=backup=1;subpartitionof=/abl
-/keymaster      emmc    /dev/block/sde10                           flags=backup=1;subpartitionof=/abl
-/msadp          emmc    /dev/block/sde48                           flags=backup=1;subpartitionof=/abl
-/oppo_sec       emmc    /dev/block/sde24                           flags=backup=1;subpartitionof=/abl
-/oppostanvbk    emmc    /dev/block/sdf3                            flags=backup=1;subpartitionof=/abl
-/qupfw          emmc    /dev/block/sde15                           flags=backup=1;subpartitionof=/abl
-/splash         emmc    /dev/block/sde50                           flags=backup=1;subpartitionof=/abl
-/storsec        emmc    /dev/block/sde57                           flags=backup=1;subpartitionof=/abl
-/tz             emmc    /dev/block/sde2                            flags=backup=1;subpartitionof=/abl
-/xbl            emmc    /dev/block/sdb1                            flags=backup=1;subpartitionof=/abl
-/xbl_config     emmc    /dev/block/sdb2                            flags=backup=1;subpartitionof=/abl
+# Persistent Firmware & Properties
+/persist	ext4	/dev/block/bootdevice/by-name/persist          flags=display="Persist"
+/persist_image	emmc	/dev/block/bootdevice/by-name/persist          flags=backup=1;display="Persist-Image";flashimg;backup=1
 
-/storage        ext4    /data/media/0                              flags=display="Internal Storage";backup=1;removable;usermrf;fsflags="bind,utf8"
-/persist        ext4    /dev/block/sda2                            flags=display="Persist"
-/persist_image  emmc    /dev/block/sda2                            flags=display="Persist";flashimg;backup=1
-/vbmeta         emmc    /dev/block/sde18                           flags=display="Vbmeta";flashimg;backup=1
-/vbmeta_system  emmc    /dev/block/sde16                           flags=display="Vbmeta-System";flashimg;backup=1
-/vbmeta_vendor  emmc    /dev/block/sde17                           flags=display="Vbmeta-Vendor";flashimg;backup=1
+# Modem partitions
+/modem		emmc	/dev/block/bootdevice/by-name/modem            flags=backup=1;display="Modem"
+/bluetooth	emmc	/dev/block/bootdevice/by-name/bluetooth        flags=backup=1;subpartitionof=/modem
+/dsp		emmc	/dev/block/bootdevice/by-name/dsp              flags=backup=1;subpartitionof=/modem
 
-# EFS Backup
-/efs1           emmc    /dev/block/sdf4                            flags=display="EFS";backup=1
-/efs2           emmc    /dev/block/sdf5                            flags=backup=1;subpartitionof=/efs1
-/efsc           emmc    /dev/block/sdf11                           flags=backup=1;subpartitionof=/efs1
-/efsg           emmc    /dev/block/sdf10                           flags=backup=1;subpartitionof=/efs1
+# EFS partitions
+/efs1           emmc    /dev/block/bootdevice/by-name/modemst1         flags=backup=1;display=EFS
+/efs2           emmc    /dev/block/bootdevice/by-name/modemst2         flags=backup=1;subpartitionof=/efs1
+/efsc           emmc    /dev/block/bootdevice/by-name/fsc              flags=backup=1;subpartitionof=/efs1
+/efsg           emmc    /dev/block/bootdevice/by-name/fsg              flags=backup=1;subpartitionof=/efs1
 
 # Removable storage
-/usb_otg        auto    /dev/block/sdg1       /dev/block/sdg       flags=display="USB-Storage";storage;wipeingui;removable;fsflags="utf8"
-/sdcard1        auto    /dev/block/mmcblk0p1  /dev/block/mmcb0k1   flags=display="MicroSD";storage;wipeingui;removable;fsflags="nosuid,nodev,utf8"
+/usb_otg        auto    /dev/block/sdg1       /dev/block/sdg           flags=display="USB-Storage";storage;wipeingui;removable;fsflags="utf8"
