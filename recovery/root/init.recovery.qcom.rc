@@ -37,4 +37,5 @@ on fs
     write /sys/class/power_supply/usb/otg_switch 1
 
 on boot
+    start health-hal-2-1
     setprop sys.usb.config adb
