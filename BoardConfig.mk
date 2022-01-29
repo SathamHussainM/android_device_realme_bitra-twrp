@@ -146,6 +146,7 @@ TW_OZIP_DECRYPT_KEY := 0000
 TW_INCLUDE_LOGICAL := my_product my_engineering common_preload special_preload
 TW_Y_OFFSET := 115
 TW_H_OFFSET := -115
+TW_NO_HAPTICS := true
 
 # Other flags
 TW_NO_LEGACY_PROPS := true
