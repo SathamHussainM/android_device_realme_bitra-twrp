@@ -18,6 +18,6 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE), RMX3370)
+ifeq ($(TARGET_DEVICE), bitra)
 include $(call all-subdir-makefiles,$(LOCAL_PATH))
 endif
