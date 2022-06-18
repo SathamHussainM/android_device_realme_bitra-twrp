@@ -16,9 +16,10 @@
 
 #<src>                                 <mnt_point>     <type>   <mnt_flags and options>           <fs_mgr_flags>
 system                                   /system        erofs   ro                                wait,logical,first_stage_mount
-system                                   /system        ext4    ro,barrier=1                      wait,logical,first_stage_mount
+system_ext                               /system_ext    erofs   ro                                wait,logical,first_stage_mount
 vendor                                   /vendor        erofs   ro                                wait,logical,first_stage_mount
 product                                  /product       erofs   ro                                wait,logical,first_stage_mount
+odm                                      /odm           erofs   ro                                wait,logical,first_stage_mount
 
 /dev/block/bootdevice/by-name/metadata   /metadata      ext4    noatime,nosuid,nodev,discard      wait,formattable,first_stage_mount
 /dev/block/bootdevice/by-name/userdata   /data          f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt   latemount,wait,resize,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d84000.ufshc,checkpoint=fs
