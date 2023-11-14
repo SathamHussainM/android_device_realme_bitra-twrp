@@ -21,6 +21,9 @@ PRODUCT_COPY_FILES += \
 # Enable project quotas and casefolding for emulated storage without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Userdata
+PRODUCT_FS_COMPRESSION := 1
+
 # Dynamic partition stuff
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
