@@ -15,3 +15,6 @@ ro.crypto.uses_fs_ioc_add_encryption_key=true
 ro.crypto.volume.metadata.method=dm-default-key
 ro.crypto.dm_default_key.options_format.version=2
 ro.crypto.volume.options=::v2
+
+# Fuse
+persist.sys.fuse.passthrough.enable=true
