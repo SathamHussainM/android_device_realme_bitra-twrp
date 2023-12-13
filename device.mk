@@ -30,7 +30,8 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 # Fastbootd stuff
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
-    android.hardware.fastboot@1.0-impl-mock.recovery
+    android.hardware.fastboot@1.0-impl-mock.recovery \
+    fastbootd
 
 # Take a few libraries from sources
 TARGET_RECOVERY_DEVICE_MODULES += \
